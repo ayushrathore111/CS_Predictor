@@ -3,14 +3,14 @@ import pandas as pd
 import joblib
 
 # Load the trained models
-rf_cs = joblib.load('rf_cs.joblib')
-rf_ts = joblib.load('rf_ts.joblib')
-lr_cs = joblib.load('lr_cs.joblib')
-lr_ts = joblib.load('lr_ts.joblib')
-etr_cs = joblib.load('etr_cs.joblib')
-etr_ts = joblib.load('etr_ts.joblib')
-ar_cs = joblib.load('ar_cs.joblib')
-ar_ts = joblib.load('ar_ts.joblib')
+rf_cs = joblib.load('./rf_cs.joblib')
+rf_ts = joblib.load('./rf_ts.joblib')
+lr_cs = joblib.load('./lr_cs.joblib')
+lr_ts = joblib.load('./lr_ts.joblib')
+etr_cs = joblib.load('./etr_cs.joblib')
+etr_ts = joblib.load('./etr_ts.joblib')
+ar_cs = joblib.load('./ar_cs.joblib')
+ar_ts = joblib.load('./ar_ts.joblib')
 
 # Title of the web app
 st.title('Compressive/Tensile Strength Prediction')
