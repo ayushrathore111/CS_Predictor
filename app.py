@@ -3,34 +3,59 @@ import pandas as pd
 import joblib
 
 # Load the trained models
-rf_model = joblib.load('random_forest_model.joblib')
-gpr_model = joblib.load('gpr_model.joblib')
+rf_cs = joblib.load('rf_cs.joblib')
+rf_ts = joblib.load('rf_ts.joblib')
+lr_cs = joblib.load('lr_cs.joblib')
+lr_ts = joblib.load('lr_ts.joblib')
+etr_cs = joblib.load('etr_cs.joblib')
+etr_ts = joblib.load('etr_ts.joblib')
+ar_cs = joblib.load('ar_cs.joblib')
+ar_ts = joblib.load('ar_ts.joblib')
 
 # Title of the web app
-st.title('Scour Depth Prediction')
+st.title('Compressive/Tensile Strength Prediction')
 
 # Sidebar with input fields
 st.sidebar.title('Input Features')
-U = st.sidebar.slider('Flow Velocity (m/s)', min_value=0.09, max_value=0.28, step=0.01, value=0.15)
-H = st.sidebar.slider('Flow Depth (m)', min_value=0.02, max_value=0.28, step=0.01, value=0.13)
-D = st.sidebar.slider('Pier Diameter (m)', min_value=0.06, max_value=0.22, step=0.01, value=0.11)
-Fr = st.sidebar.slider('Froude Number', min_value=0.07, max_value=1.33, step=0.01, value=0.24)
-d50 = st.sidebar.slider('Median Grain Size (m)', min_value=0.0, max_value=0.1, step=0.01, value=0.0)
-HD_ratio = st.sidebar.slider('Water Depth to Pier Diameter Ratio', min_value=0.4, max_value=6.8, step=0.01, value=1.182)
-Dd50_ratio = st.sidebar.slider('Pier Diameter to Median Grain Size Ratio', min_value=0.01, max_value=2.29, step=0.01, value=0.05)
-DsD_ratio = st.sidebar.slider('Froude Number to Pier Diameter Ratio', min_value=0.01, max_value=2.29, step=0.01, value=0.18)
+
+U = st.sidebar.slider('Cement (kg/m3)', min_value=200.1, max_value=500.1, step=0.1, value=232.5)
+H = st.sidebar.slider('Fly Ash (kg/m3)', min_value=200.1, max_value=500.1, step=1.5, value=270.6)
+D = st.sidebar.slider('Fine Aggregates (kg/m3)', min_value=800.1, max_value=1200.1, step=1.5, value=845.5)
+Fr = st.sidebar.slider('Water (kg/m3)', min_value=150.1, max_value=300.1, step=1.5, value=180.0)
+d50 = st.sidebar.slider('Coarse Aggregates (kg/m3)', min_value=500.1, max_value=1000.1, step=1.5, value=542.2)
+HD_ratio = st.sidebar.slider('Water to Binder Ratio', min_value=0.01, max_value=1.0, step=0.01, value=0.12)
+Dd50_ratio = st.sidebar.slider('Water to Powder Ratio', min_value=0.01, max_value=1.0, step=0.01, value=0.05)
+DsD_ratio = st.sidebar.slider('Superplasticizer (kg/m3)', min_value=0.01, max_value=10.0, step=0.01, value=0.18)
+Days = st.sidebar.slider('Curing Days', min_value=1, max_value=30, step=1, value=7)
 
 # Function to make predictions using the models
-def make_predictions(rf_model, gpr_model, U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio):
+def make_predictions(rf_cs,rf_ts,lr_cs,lr_ts,etr_cs,etr_ts,ar_ts,ar_cs, U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days):
     # Make predictions using the models
-    prediction_rf = rf_model.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio]])[0]
-    prediction_gpr = gpr_model.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio]])[0]
-    return prediction_rf, prediction_gpr
+    rf_cs_pred = rf_cs.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days]])[0]
+    rf_ts_pred = rf_ts.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days]])[0]
+    lr_cs_pred = lr_cs.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days]])[0]
+    lr_ts_pred = lr_ts.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days]])[0]
+    etr_cs_pred = etr_cs.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days]])[0]
+    etr_ts_pred = etr_ts.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days]])[0]
+    ar_cs_pred = ar_cs.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days]])[0]
+    ar_ts_pred = ar_ts.predict([[U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days]])[0]
+    return rf_cs_pred, rf_ts_pred,lr_cs_pred,lr_ts_pred,etr_cs_pred,etr_ts_pred,ar_cs_pred,ar_ts_pred
 
 # Make predictions using the input values
-prediction_rf, prediction_gpr = make_predictions(rf_model, gpr_model, U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio)
+rf_cs_pred, rf_ts_pred,lr_cs_pred,lr_ts_pred,etr_cs_pred,etr_ts_pred,ar_cs_pred,ar_ts_pred = make_predictions(rf_cs,rf_ts,lr_cs,lr_ts,etr_cs,etr_ts,ar_ts,ar_cs, U, H, D, Fr, d50, HD_ratio, Dd50_ratio, DsD_ratio,Days)
 
 # Display predictions
-st.write('### Random Forest Prediction (ds):', prediction_rf)
-st.write('### Gaussian Process Prediction (ds):', prediction_gpr)
+
+st.title("Compressive Strength")
+st.write('### Random Forest Prediction (cs):', rf_cs_pred)
+st.write('### Linear Regression Prediction (cs):', lr_cs_pred)
+st.write('### Extra Tree Prediction (cs):', etr_cs_pred)
+st.write('### Adaboost Prediction (cs):', ar_cs_pred)
+
+
+st.title("Tensile Strength")
+st.write('### Random Forest Prediction (cs):', rf_ts_pred)
+st.write('### Linear Regression Prediction (cs):', lr_ts_pred)
+st.write('### Extra Tree Prediction (cs):', etr_ts_pred)
+st.write('### Adaboost Prediction (cs):', ar_ts_pred)
 
