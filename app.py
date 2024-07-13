@@ -25,7 +25,7 @@ Fr = st.sidebar.slider('Water (kg/m3)', min_value=150.1, max_value=300.1, step=1
 d50 = st.sidebar.slider('Coarse Aggregates (kg/m3)', min_value=500.1, max_value=1000.1, step=1.5, value=542.2)
 HD_ratio = st.sidebar.slider('Water to Binder Ratio', min_value=0.01, max_value=1.0, step=0.01, value=0.12)
 Dd50_ratio = st.sidebar.slider('Water to Powder Ratio', min_value=0.01, max_value=1.0, step=0.01, value=0.05)
-DsD_ratio = st.sidebar.slider('Superplasticizer (kg/m3)', min_value=0.01, max_value=10.0, step=0.01, value=0.18)
+DsD_ratio = st.sidebar.slider('Superplastisizer (kg/m3)', min_value=0.01, max_value=10.0, step=0.01, value=0.18)
 Days = st.sidebar.slider('Curing Days', min_value=1, max_value=30, step=1, value=7)
 
 # Function to make predictions using the models
