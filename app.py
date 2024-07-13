@@ -54,8 +54,8 @@ st.write('### Adaboost Prediction (cs):', ar_cs_pred)
 
 
 st.title("Tensile Strength")
-st.write('### Random Forest Prediction (cs):', rf_ts_pred)
-st.write('### Linear Regression Prediction (cs):', lr_ts_pred)
-st.write('### Extra Tree Prediction (cs):', etr_ts_pred)
-st.write('### Adaboost Prediction (cs):', ar_ts_pred)
+st.write('### Random Forest Prediction (ts):', rf_ts_pred)
+st.write('### Linear Regression Prediction (ts):', lr_ts_pred)
+st.write('### Extra Tree Prediction (ts):', etr_ts_pred)
+st.write('### Adaboost Prediction (ts):', ar_ts_pred)
 
